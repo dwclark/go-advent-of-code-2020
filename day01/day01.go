@@ -6,12 +6,12 @@ import (
 	"github.com/etnz/permute"
 )
 
-func GetNums() []int64 {
+func nums() []int64 {
 	return array.Map(utils.ToInt64)(utils.ReadLines("inputs/day-01.txt"))
 }
 
 func Part1() int64 {
-	nums := GetNums()
+	nums := nums()
 	var result int64
 
 outer:
@@ -29,7 +29,7 @@ outer:
 
 func Part2() int64 {
 	var result int64
-	for comb := range permute.Combinations(3, GetNums()) {
+	for comb := range permute.Combinations(3, nums()) {
 		if comb[0]+comb[1]+comb[2] == 2020 {
 			result = comb[0] * comb[1] * comb[2]
 			break

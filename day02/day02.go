@@ -5,19 +5,19 @@ import (
 	"strings"
 )
 
-type Data struct {
+type datum struct {
 	min      int64
 	max      int64
 	letter   rune
 	password string
 }
 
-func GetData() []Data {
-	var data []Data
+func data() []datum {
+	var data []datum
 	for _, line := range utils.ReadLines("inputs/day-02.txt") {
 		all := strings.Split(line, " ")
 		minMax := strings.Split(all[0], "-")
-		data = append(data, Data{
+		data = append(data, datum{
 			min:      utils.ToInt64(minMax[0]),
 			max:      utils.ToInt64(minMax[1]),
 			letter:   []rune(all[1])[0],
@@ -30,15 +30,15 @@ func GetData() []Data {
 
 func Part1() int64 {
 	var valid int64
-	for _, data := range GetData() {
+	for _, d := range data() {
 		var times int64
-		for _, c := range data.password {
-			if c == data.letter {
+		for _, c := range d.password {
+			if c == d.letter {
 				times++
 			}
 		}
 
-		if data.min <= times && times <= data.max {
+		if d.min <= times && times <= d.max {
 			valid++
 		}
 	}
@@ -48,10 +48,10 @@ func Part1() int64 {
 
 func Part2() int64 {
 	var valid int64
-	for _, data := range GetData() {
-		pwd := []rune(data.password)
+	for _, d := range data() {
+		pwd := []rune(d.password)
 		size := int64(len(pwd))
-		if data.max <= size && utils.Xor(pwd[data.min-1] == data.letter, pwd[data.max-1] == data.letter) {
+		if d.max <= size && utils.Xor(pwd[d.min-1] == d.letter, pwd[d.max-1] == d.letter) {
 			valid++
 		}
 	}
