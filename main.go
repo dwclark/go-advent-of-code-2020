@@ -2,6 +2,7 @@ package main
 
 import (
 	"aoc-2020/day01"
+	"aoc-2020/day02"
 	"fmt"
 	"os"
 	"strconv"
@@ -11,6 +12,7 @@ type DayFunc func() int64
 
 var all map[int][2]DayFunc = map[int][2]DayFunc{
 	1: [2]DayFunc{day01.Part1, day01.Part2},
+	2: [2]DayFunc{day02.Part1, day02.Part2},
 }
 
 func main() {
