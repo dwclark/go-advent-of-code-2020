@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -11,8 +10,7 @@ import (
 func ToInt64(s string) int64 {
 	num, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {
-		fmt.Printf("Number is '%s'\n", s)
-		panic("Error in converting number")
+		log.Fatalf("cannot convert '%s' to an int64", s)
 	}
 
 	return int64(num)
