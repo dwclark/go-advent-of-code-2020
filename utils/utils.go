@@ -38,3 +38,16 @@ func TestResult(day, part, shouldBe, got int64) int64 {
 		return got
 	}
 }
+
+func Xor(one, two bool) bool {
+	var times int
+	if one {
+		times++
+	}
+
+	if two {
+		times++
+	}
+
+	return times == 1
+}
