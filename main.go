@@ -3,6 +3,7 @@ package main
 import (
 	"aoc-2020/day01"
 	"aoc-2020/day02"
+	"aoc-2020/day03"
 	"fmt"
 	"os"
 )
@@ -12,6 +13,7 @@ type DayFunc func() int64
 var all map[string]map[string]DayFunc = map[string]map[string]DayFunc{
 	"1": {"1": day01.Part1, "2": day01.Part2},
 	"2": {"1": day02.Part1, "2": day02.Part2},
+	"3": {"1": day03.Part1, "2": day03.Part2},
 }
 
 func main() {
