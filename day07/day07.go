@@ -66,6 +66,23 @@ func Part1() int64 {
 	return utils.TestResult(7, 1, 246, result)
 }
 
+// don't bother with memoization as the answer is not that big
+// however, still need to look into memoization later
+func countBags(theBag bag, bags map[string]bag) int64 {
+	if len(theBag.contains) == 0 {
+		return 0
+	} else {
+		var ret int64
+		for color, count := range theBag.contains {
+			ret += (count + (count * countBags(bags[color], bags)))
+		}
+
+		return ret
+	}
+}
+
 func Part2() int64 {
-	return utils.TestResult(7, 2, 0, 0)
+	all := bags()
+	result := countBags(all["shiny gold"], all)
+	return utils.TestResult(7, 2, 2976, result)
 }
