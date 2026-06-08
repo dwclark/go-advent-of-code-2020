@@ -58,6 +58,7 @@ func swap(i instruction) instruction {
 		return instruction{"nop", i.by}
 	}
 }
+
 func Part2() int64 {
 	instructions := instructions()
 	var accumulator int64
