@@ -3,8 +3,6 @@ package day07
 import (
 	"aoc-2020/utils"
 	"strings"
-	//"github.com/IBM/fp-go/array"
-	//"fmt"
 )
 
 type bag struct {
