@@ -8,6 +8,7 @@ import (
 	"aoc-2020/day05"
 	"aoc-2020/day06"
 	"aoc-2020/day07"
+	"aoc-2020/day08"
 	"fmt"
 	"os"
 )
@@ -22,6 +23,7 @@ var all map[string]map[string]DayFunc = map[string]map[string]DayFunc{
 	"5": {"1": day05.Part1, "2": day05.Part2},
 	"6": {"1": day06.Part1, "2": day06.Part2},
 	"7": {"1": day07.Part1, "2": day07.Part2},
+	"8": {"1": day08.Part1, "2": day08.Part2},
 }
 
 func main() {
