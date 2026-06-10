@@ -2,8 +2,6 @@ package day11
 
 import (
 	"aoc-2020/utils"
-	"fmt"
-	//"github.com/IBM/fp-go/array"
 )
 
 func seats() [][]rune {
@@ -15,32 +13,64 @@ func seats() [][]rune {
 	return ret
 }
 
+type move struct {
+	row, col int
+}
+
+type computeOccupied func(all [][]rune, row, col int) int
+
 var empty rune = 'L'
 var floor rune = '.'
 var occupied rune = '#'
-var indexes [3]int = [3]int{-1, 0, 1}
+var moves [8]move = [8]move{move{-1, -1}, move{-1, 0}, move{-1, 1}, move{0, -1}, move{0, 1},
+	move{1, -1}, move{1, 0}, move{1, 1}}
 
-func numOccupied(allSeats [][]rune, row, col int) int {
-	numOccupied := 0
+func adjacent(allSeats [][]rune, row, col int) int {
+	ret := 0
 	maxRow := len(allSeats)
 	maxCol := len(allSeats[0])
 
-	for _, rowDiff := range indexes {
-		for _, colDiff := range indexes {
-			if rowDiff != 0 || colDiff != 0 {
-				testRow := row + rowDiff
-				testCol := col + colDiff
-				if 0 <= testRow && testRow < maxRow && 0 <= testCol && testCol < maxCol {
+	for _, move := range moves {
+		testRow := row + move.row
+		testCol := col + move.col
+		if 0 <= testRow && testRow < maxRow && 0 <= testCol && testCol < maxCol {
 
-					if allSeats[testRow][testCol] == occupied {
-						numOccupied++
-					}
-				}
+			if allSeats[testRow][testCol] == occupied {
+				ret++
 			}
 		}
 	}
 
-	return numOccupied
+	return ret
+}
+
+func lineOfSight(allSeats [][]rune, row, col int) int {
+	ret := 0
+	maxRow := len(allSeats)
+	maxCol := len(allSeats[0])
+
+	for _, move := range moves {
+		multiplier := 1
+		for {
+			testRow := row + (multiplier * move.row)
+			testCol := col + (multiplier * move.col)
+			if 0 <= testRow && testRow < maxRow && 0 <= testCol && testCol < maxCol {
+				toTest := allSeats[testRow][testCol]
+				if toTest == occupied {
+					ret++
+					break
+				} else if toTest == empty {
+					break
+				} else {
+					multiplier++
+				}
+			} else {
+				break
+			}
+		}
+	}
+
+	return ret
 }
 
 func clone(seats [][]rune) [][]rune {
@@ -68,15 +98,7 @@ func count(c rune, seats [][]rune) int64 {
 	return numEmpty
 }
 
-func printSeats(seats [][]rune) {
-	for _, row := range seats {
-		fmt.Println(string(row))
-	}
-
-	fmt.Println()
-}
-
-func Part1() int64 {
+func simulate(comp computeOccupied, limit int) [][]rune {
 	prev := seats()
 	for {
 		changes := false
@@ -84,11 +106,11 @@ func Part1() int64 {
 		for row := 0; row < len(prev); row++ {
 			for col := 0; col < len(prev[0]); col++ {
 				if prev[row][col] != floor {
-					numOccupied := numOccupied(prev, row, col)
+					numOccupied := comp(prev, row, col)
 					if prev[row][col] == empty && numOccupied == 0 {
 						changes = true
 						newSeats[row][col] = occupied
-					} else if prev[row][col] == occupied && numOccupied >= 4 {
+					} else if prev[row][col] == occupied && numOccupied >= limit {
 						changes = true
 						newSeats[row][col] = empty
 					}
@@ -104,9 +126,13 @@ func Part1() int64 {
 		}
 	}
 
-	return utils.TestResult(11, 1, 2093, count(occupied, prev))
+	return prev
+}
+
+func Part1() int64 {
+	return utils.TestResult(11, 1, 2093, count(occupied, simulate(adjacent, 4)))
 }
 
 func Part2() int64 {
-	return utils.TestResult(11, 2, 0, 0)
+	return utils.TestResult(11, 2, 1862, count(occupied, simulate(lineOfSight, 5)))
 }
