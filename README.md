@@ -31,3 +31,5 @@ The other thing I've noticed is Go's verbosity, at least in comparison with lisp
 Having said that, there's another comparison that's interesting. The size in bytes of the lisp code is 2.62 KB. The size in bytes of the Go code is 2.63 KB. In that sense they are basically identical. This is probably due to lisp's penchant for long symbol names.
 
 This leads to the following observation: You can do a lot more in one line of lisp than you can in Go, but each line weighs a lot more.
+
+**Addendum:** I did end up refactoring this day. Now there is far less code repetition. I also added a utility ternary function and made better use function types and functional programming.
