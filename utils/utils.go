@@ -49,3 +49,11 @@ func Xor(one, two bool) bool {
 
 	return times == 1
 }
+
+func Tern[T any](condition bool, tval, fval T) T {
+	if condition {
+		return tval
+	} else {
+		return fval
+	}
+}
