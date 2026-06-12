@@ -57,3 +57,12 @@ func Tern[T any](condition bool, tval, fval T) T {
 		return fval
 	}
 }
+
+func Manhattan(vals ...int64) int64 {
+	var ret int64
+	for _, v := range vals {
+		ret += max(v, -v)
+	}
+
+	return ret
+}
