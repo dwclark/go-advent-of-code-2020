@@ -22,7 +22,7 @@ For various reasons I have decided to learn Go. AOC 2020 has always been one of 
 
 ## [Day 11](day11/day11.go) Go is Verbose, But Light
 
-One of the interesting things so far is that Go does seem to enjoy a sweet spot for the kinds of problems that AOC throws at people. Go is both fast to compile and run. This means not a lot of time waiting for the code execute. It's snappy. It also means I'm not worried about having to optimize things so far, I can mostly just trust that the Go compiler will give something fast enough to not worry about speed.
+One of the interesting things so far is that Go does seem to enjoy a sweet spot for the kinds of problems that AOC throws at people. Go is both fast to compile and run. This means not a lot of time waiting for the code to execute. It's snappy. It also means I'm not worried about having to optimize things so far. I can mostly just trust that the Go compiler will give something fast enough to not worry about speed.
 
 However, on day 11 I've started to see some of the negative sides of Go. First, one of the reasons I'm able to solve these problems fast is because I've done them before. I'm starting to get to some problems that require some thinking and experimentation. This was the first day that I really missed the REPL in Lisp. I've also somewhat missed ipython; it's not as powerful as CL, but it's better than nothing, which is mostly where I find myself with Go.
 
