@@ -42,8 +42,8 @@ However, I keep forgetting the difference between modulo and remainder. Common l
 
 ## [Day 14](day14/day14.go) Ugly Instructions
 
-At some point Advent of God starts having ugly instructions. They are well written, but since the process you are applying is itself convoluted, it's easy to misread and debug an algorithm that ends up being the wrong algorithm. Day 14 is when this started.
+At some point Advent of Code starts having ugly instructions. They are well written, but since the process you are applying is itself convoluted, it's easy to misread and debug an algorithm that ends up being the wrong algorithm. Day 14 is when this started.
 
-This is also the first day where I think the go code compares unfavorably to the lisp code. The lisp code is shorter in line count and in bytes. Part of this is the generic power set function I put in the utils. I don't have that in the Go version of utils, but there are other functions not needed in lisp that are in the Go utils, so I think that's a wash. Having a native bitset also helped out a lot in lisp.
+This is also the first day where I think the Go code compares unfavorably to the lisp code. The lisp code is shorter in line count and in bytes. Part of this is the generic power set function I put in utils package. I don't have that in the Go utils package, but there are other functions not needed in lisp that are in the Go utils package. I think makes them about even in shared code. Having a native bitset also helped out a lot in lisp.
 
 At this point I should probably start looking into some Go libraries, using [awesome go](https://github.com/avelino/awesome-go) as a resource. While looking up bitset implementations for Go, the author of the library I found was quite proud that it was included there.
