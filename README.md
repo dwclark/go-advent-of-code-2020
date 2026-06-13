@@ -32,4 +32,10 @@ Having said that, there's another comparison that's interesting. The size in byt
 
 This leads to the following observation: You can do a lot more in one line of lisp than you can in Go, but each line weighs a lot more.
 
-**Addendum:** I did end up refactoring this day. Now there is far less code repetition. I also added a utility ternary function and made better use function types and functional programming.
+**Addendum:** I did end up refactoring this day. Now there is far less code repetition. I also added a utility ternary function and made better use function types and functional programming. Still more lines than common lisp. Still competitive on total bytes.
+
+## [Day 13](day13/day13.go) Mod vs. Rem
+
+This one always trips me up. For this one I pretty much did a translation of the common lisp code into Go. Most of this day is getting the number theory right, the code itself is pretty trivial.
+
+However, I keep forgetting the difference between modulo and remainder. Common lisp has a true modulo operator, while Go only has a remainder operator. They give the same answer...until one of the values is negative, and then the remainder gives a negative value. So the straight translation works until you translate mod -> remainder, which is wrong. Took me a while to figure that one out.
