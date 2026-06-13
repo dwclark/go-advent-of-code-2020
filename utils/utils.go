@@ -16,6 +16,15 @@ func ToInt64(s string) int64 {
 	return int64(num)
 }
 
+func ToUInt64(s string) uint64 {
+	num, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		log.Fatalf("cannot convert '%s' to an uint64", s)
+	}
+
+	return uint64(num)
+}
+
 func ReadLines(name string) []string {
 	bytes, err := os.ReadFile(name)
 	if err != nil {

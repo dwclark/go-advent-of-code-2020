@@ -39,3 +39,7 @@ This leads to the following observation: You can do a lot more in one line of li
 This one always trips me up. For this one I pretty much did a translation of the common lisp code into Go. Most of this day is getting the number theory right, the code itself is pretty trivial.
 
 However, I keep forgetting the difference between modulo and remainder. Common lisp has a true modulo operator, while Go only has a remainder operator. They give the same answer...until one of the values is negative, and then the remainder gives a negative value. So the straight translation works until you translate mod -> remainder, which is wrong. Took me a while to figure that one out.
+
+## [Day 14](day14/day14.go) Ugly Instructions
+
+At some point Advent of God starts having ugly instructions. They are well written, but since the process you are applying is itself convoluted, it's easy to misread and debug an algorithm that ends up being the wrong algorithm. Day 14 is when this started.
