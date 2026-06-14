@@ -60,3 +60,5 @@ Still seeing the same trend. Lisp has fewer lines of code, but Go has fewer byte
 * Lisp also can't rely on case conventions to export symbols, so you have to manually export them.
 
 So Go programs tend to be shorter, at least in total size, because syntax wins for these types of programs. The promise of Lisp was always that in theory you can build a much higher tower of abstractions than you can in a language like Go. In practice, humans haven't managed to do that, both for lack of knowledge and lack of financial incentive. This means that languages like Go will always do better in the "real world." At least until the "real world" ups it's game.
+
+I think this trend is pretty solid at this point and I don't anticipate commenting on it any further.
