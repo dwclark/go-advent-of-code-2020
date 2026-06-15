@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repo contains solutions to [Advent of Code 2020](https://adventofcode.com/2020) done in Go. You can build using `make` and then running the resulting binary in build. For example,
+This repo contains solutions to [Advent of Code 2020](https://adventofcode.com/2020) done in Go. You can build using `make` and then run the resulting binary in build. For example,
 
 To run all of the tests execute:
 

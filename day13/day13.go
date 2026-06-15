@@ -2,7 +2,6 @@ package day13
 
 import (
 	"aoc-2020/utils"
-	"fmt"
 	"math"
 	"strings"
 )
@@ -42,7 +41,6 @@ outer:
 
 func (b bus) remainder() int64 {
 	rem := (b.id - b.index) % b.id
-	fmt.Println(b, rem)
 	if rem >= 0 {
 		return rem
 	} else {
