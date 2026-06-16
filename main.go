@@ -16,6 +16,7 @@ import (
 	"aoc-2020/day13"
 	"aoc-2020/day14"
 	"aoc-2020/day15"
+	"aoc-2020/day16"
 	"fmt"
 	"log"
 	"os"
@@ -40,6 +41,7 @@ var all [][]DayFunc = [][]DayFunc{
 	{day13.Part1, day13.Part2},
 	{day14.Part1, day14.Part2},
 	{day15.Part1, day15.Part2},
+	{day16.Part1, day16.Part2},
 }
 
 func main() {
