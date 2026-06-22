@@ -110,7 +110,7 @@ func plusFirst(ops []int64) int64 {
 func Part2() int64 {
 	result := int64(0)
 	for _, line := range parse() {
-		result += solve(line, f)
+		result += solve(line, plusFirst)
 	}
 
 	return utils.TestResult(18, 2, 185348874183674, result)
