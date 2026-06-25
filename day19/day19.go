@@ -13,7 +13,7 @@ type exact rune
 
 func (e exact) matches(rules map[int64]rule, toMatch []rune, at int) (bool, int) {
 	if len(toMatch) <= at {
-		return false, -2
+		return false, -1
 	} else {
 		return toMatch[at] == rune(e), at + 1
 	}
@@ -25,7 +25,7 @@ type either struct {
 
 func (e either) matches(rules map[int64]rule, toMatch []rune, at int) (bool, int) {
 	if len(toMatch) <= at {
-		return false, -2
+		return false, -1
 	}
 
 	for _, nums := range e.couldBe {
@@ -88,60 +88,6 @@ func parse(file string) (map[int64]rule, [][]rune) {
 	return rules, runes
 }
 
-type recurser func(level int) []int64
-
-func drive(allowRecurse bool, r1 recurser, r2 recurser, rules map[int64]rule, toMatch []rune) bool {
-	i := 0
-r1Loop:
-	for {
-		r1matched, r1index := false, 0
-		i++
-		r1next := r1(i)
-		if len(toMatch) <= len(r1next) {
-			return false
-		}
-
-		for _, num := range r1next {
-			rule := rules[num]
-			r1matched, r1index = rule.matches(rules, toMatch, r1index)
-			if !r1matched {
-				if r1index == -2 {
-					return false
-				} else {
-					continue r1Loop
-				}
-			}
-		}
-
-		j := 0
-	r2Loop:
-		for {
-			r2matched, r2index := true, r1index
-			j++
-			r2next := r2(j)
-			if len(toMatch)-r1index <= len(r2next) {
-				break r2Loop
-			}
-
-			for _, num := range r2(j) {
-				rule := rules[num]
-				r2matched, r2index = rule.matches(rules, toMatch, r2index)
-				if !r2matched {
-					if r2index == -2 {
-						break r2Loop
-					} else {
-						continue r2Loop
-					}
-				}
-			}
-
-			if r2matched && r2index == len(toMatch) {
-				return true
-			}
-		}
-	}
-}
-
 func Part1() int64 {
 	rules, runes := parse("inputs/day-19.txt")
 	matched := int64(0)
@@ -157,25 +103,40 @@ func Part1() int64 {
 	return utils.TestResult(19, 1, 171, matched)
 }
 
-func Part2() int64 {
-	rules, runes := parse("inputs/day-19.txt")
-
-	f := func(toDup []int64) recurser {
-		return func(times int) []int64 {
-			ret := []int64{}
-			for _, val := range toDup {
-				for i := 0; i < times; i++ {
-					ret = append(ret, val)
-				}
-			}
-
-			return ret
+func recurse(times int, pattern []int64) either {
+	tmp := []int64{}
+	for _, val := range pattern {
+		for i := 0; i < times; i++ {
+			tmp = append(tmp, val)
 		}
 	}
 
+	return either{[][]int64{tmp}}
+}
+
+func execP2(p1 []int64, p2 []int64, rules map[int64]rule, toMatch []rune) bool {
+	for frecurse := 1; frecurse*len(p1) <= len(toMatch); frecurse++ {
+		first := recurse(frecurse, p1)
+		fmatched, findex := first.matches(rules, toMatch, 0)
+		if fmatched {
+			for srecurse := 1; srecurse*len(p2) <= len(toMatch)-findex; srecurse++ {
+				second := recurse(srecurse, p2)
+				smatched, sindex := second.matches(rules, toMatch, findex)
+				if smatched && sindex == len(toMatch) {
+					return true
+				}
+			}
+		}
+	}
+
+	return false
+}
+
+func Part2() int64 {
+	rules, runes := parse("inputs/day-19.txt")
 	matched := int64(0)
 	for _, ary := range runes {
-		matches := drive(true, f([]int64{42}), f([]int64{42, 31}), rules, ary)
+		matches := execP2([]int64{42}, []int64{42, 31}, rules, ary)
 		if matches {
 			matched++
 		}
