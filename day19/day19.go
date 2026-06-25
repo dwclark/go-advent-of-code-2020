@@ -136,8 +136,7 @@ func Part2() int64 {
 	rules, runes := parse("inputs/day-19.txt")
 	matched := int64(0)
 	for _, ary := range runes {
-		matches := execP2([]int64{42}, []int64{42, 31}, rules, ary)
-		if matches {
+		if execP2([]int64{42}, []int64{42, 31}, rules, ary) {
 			matched++
 		}
 	}
