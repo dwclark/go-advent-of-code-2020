@@ -2,7 +2,6 @@ package day19
 
 import (
 	"aoc-2020/utils"
-	"fmt"
 	"strings"
 )
 
@@ -14,7 +13,7 @@ type exact rune
 
 func (e exact) matches(rules map[int64]rule, toMatch []rune, at int) (bool, int) {
 	if len(toMatch) <= at {
-		return false, -1
+		return false, -2
 	} else {
 		return toMatch[at] == rune(e), at + 1
 	}
@@ -25,6 +24,10 @@ type either struct {
 }
 
 func (e either) matches(rules map[int64]rule, toMatch []rune, at int) (bool, int) {
+	if len(toMatch) <= at {
+		return false, -2
+	}
+
 	for _, nums := range e.couldBe {
 		matched, index := false, at
 		for _, num := range nums {
@@ -85,6 +88,60 @@ func parse(file string) (map[int64]rule, [][]rune) {
 	return rules, runes
 }
 
+type recurser func(level int) []int64
+
+func drive(allowRecurse bool, r1 recurser, r2 recurser, rules map[int64]rule, toMatch []rune) bool {
+	i := 0
+r1Loop:
+	for {
+		r1matched, r1index := false, 0
+		i++
+		r1next := r1(i)
+		if len(toMatch) <= len(r1next) {
+			return false
+		}
+
+		for _, num := range r1next {
+			rule := rules[num]
+			r1matched, r1index = rule.matches(rules, toMatch, r1index)
+			if !r1matched {
+				if r1index == -2 {
+					return false
+				} else {
+					continue r1Loop
+				}
+			}
+		}
+
+		j := 0
+	r2Loop:
+		for {
+			r2matched, r2index := true, r1index
+			j++
+			r2next := r2(j)
+			if len(toMatch)-r1index <= len(r2next) {
+				break r2Loop
+			}
+
+			for _, num := range r2(j) {
+				rule := rules[num]
+				r2matched, r2index = rule.matches(rules, toMatch, r2index)
+				if !r2matched {
+					if r2index == -2 {
+						break r2Loop
+					} else {
+						continue r2Loop
+					}
+				}
+			}
+
+			if r2matched && r2index == len(toMatch) {
+				return true
+			}
+		}
+	}
+}
+
 func Part1() int64 {
 	rules, runes := parse("inputs/day-19-1.txt")
 	matched := int64(0)
@@ -101,17 +158,36 @@ func Part1() int64 {
 }
 
 func Part2() int64 {
-	rules, runes := parse("inputs/day-19-b.txt")
-	matched := int64(0)
-	zero := rules[int64(0)]
+	rules, runes := parse("inputs/day-19-1.txt")
+	delete(rules, int64(0))
+	delete(rules, int64(8))
+	delete(rules, int64(11))
 
+	r1 := func(times int) []int64 {
+		ret := []int64{}
+		for i := 0; i < times; i++ {
+			ret = append(ret, 42)
+		}
+
+		return ret
+	}
+
+	r2 := func(times int) []int64 {
+		ret := r1(times)
+		for i := 0; i < times; i++ {
+			ret = append(ret, 31)
+		}
+
+		return ret
+	}
+
+	matched := int64(0)
 	for _, ary := range runes {
-		matches, index := zero.matches(rules, ary, 0)
-		if matches && index == len(ary) {
-			fmt.Println("Matched", string(ary))
+		matches := drive(true, r1, r2, rules, ary)
+		if matches {
 			matched++
 		}
 	}
 
-	return utils.TestResult(19, 2, 12, matched)
+	return utils.TestResult(19, 2, 369, matched)
 }
