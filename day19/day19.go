@@ -143,7 +143,7 @@ r1Loop:
 }
 
 func Part1() int64 {
-	rules, runes := parse("inputs/day-19-1.txt")
+	rules, runes := parse("inputs/day-19.txt")
 	matched := int64(0)
 	zero := rules[int64(0)]
 
@@ -158,32 +158,24 @@ func Part1() int64 {
 }
 
 func Part2() int64 {
-	rules, runes := parse("inputs/day-19-1.txt")
-	delete(rules, int64(0))
-	delete(rules, int64(8))
-	delete(rules, int64(11))
+	rules, runes := parse("inputs/day-19.txt")
 
-	r1 := func(times int) []int64 {
-		ret := []int64{}
-		for i := 0; i < times; i++ {
-			ret = append(ret, 42)
+	f := func(toDup []int64) recurser {
+		return func(times int) []int64 {
+			ret := []int64{}
+			for _, val := range toDup {
+				for i := 0; i < times; i++ {
+					ret = append(ret, val)
+				}
+			}
+
+			return ret
 		}
-
-		return ret
-	}
-
-	r2 := func(times int) []int64 {
-		ret := r1(times)
-		for i := 0; i < times; i++ {
-			ret = append(ret, 31)
-		}
-
-		return ret
 	}
 
 	matched := int64(0)
 	for _, ary := range runes {
-		matches := drive(true, r1, r2, rules, ary)
+		matches := drive(true, f([]int64{42}), f([]int64{42, 31}), rules, ary)
 		if matches {
 			matched++
 		}
